@@ -7,23 +7,31 @@ use App\Models\Employee;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $employees = Employee::limit(10)->get();
+            $employees = Employee::paginate(10);
 
             return response()->json([
                 'success' => true,
-                'data' => $employees,
-                'count' => $employees->count(),
+                'data' => $employees->items(),
+                'meta' => [
+                    'current_page' => $employees->currentPage(),
+                    'last_page' => $employees->lastPage(),
+                    'per_page' => $employees->perPage(),
+                    'total' => $employees->total(),
+                    'from' => $employees->firstItem(),
+                    'to' => $employees->lastItem(),
+                ],
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Error connecting to legacy DB: ' . $e->getMessage(),
             ], 500);
-            }
+        }
     }
+
 
     public function show($id)
     {
