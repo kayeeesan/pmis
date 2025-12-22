@@ -8,6 +8,9 @@ const employee = ref({});
 
 const headers = [
     { title: "Name", key: "FirstName" },
+    { title: "Address", key: "Address" },
+    { title: "Contact No.", key: "PhoneNo" },
+    { title: "Status", key: "Status"},
     { title: "Actions", key: "actions", sortable: false },
 ];
 
