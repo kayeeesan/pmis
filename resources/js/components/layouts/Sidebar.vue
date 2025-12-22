@@ -15,6 +15,7 @@ const items = [
 const libraries = [
     { title: 'Role', route: "/roles" },
     { title: 'Accounts', route: "/users" },
+    { title: 'Employees', route: "/employees" },
 ];
 
 const rail = ref(false);
