@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import useEmployees from "../../composables/employees.js";
+import EmployeeForm from "../../components/employees/Form.vue";
 
-const { employees, pagination, query, is_loading, getEmployees, destoryEmployee } = useEmployees();
+const { employees, pagination, query, is_loading, getEmployees, destoryEmployee, updateEmployee } = useEmployees();
 
 const employee = ref({});
+const show_form_modal = ref(false);
 
 const headers = [
     { title: "Name", key: "FirstName" },
@@ -14,9 +16,18 @@ const headers = [
     { title: "Actions", key: "actions", sortable: false },
 ];
 
+const showModalForm = (val) => {
+    show_form_modal.value = val;
+};
+
 const deleteItem = async (item) => {
     await destoryEmployee(item.IDNumber);
 }
+
+const editItem = (value) => {
+    employee.value = value;
+    showModalForm(true);
+};
 const reloadEmployees = async () => {
     await getEmployees();
     employee.value = {};
@@ -53,6 +64,7 @@ onMounted(() => {
                     <v-btn
                         class="me-2"
                         color="success"
+                        @click="editItem(item)"
                         variant="tonal"
                         size="small"
                     >
@@ -88,4 +100,11 @@ onMounted(() => {
             </v-data-table>
     </div>
    </v-card>
+   <employee-form
+    :value="show_form_modal"
+    :employee="employee"
+    @input="showModalForm"
+    @reloadEmployees="reloadEmployees"
+   />
+    
 </template>

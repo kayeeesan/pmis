@@ -18,4 +18,13 @@ class Employee extends Model
     protected $keyType = 'string';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'FirstName',
+        'LastName',
+        'MiddleName',
+        'Address',
+        'PhoneNo',
+        'Status',
+    ];
 }

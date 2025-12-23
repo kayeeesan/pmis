@@ -57,6 +57,33 @@ class EmployeeController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        try {
+            $employee = Employee::findOrFail($id);
+
+            $employee->update($request->only([
+                'FirstName',
+                'LastName',
+                'MiddleName',
+                'Address',
+                'PhoneNo',
+                'Status',
+            ]));
+
+            return response()->json([
+            'success' => true,
+            'message' => 'Employee has been successfully updated.',
+            'data' => $employee
+        ]);
+        } catch (\Exception $e) {
+            return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+        }
+    }
+
     public function destroy($id)
     {
         $employee = Employee::findOrFail($id);

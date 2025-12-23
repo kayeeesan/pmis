@@ -31,6 +31,29 @@ export default function useRoles() {
             });
     }
 
+    const updateEmployee = async (id, payload) => {
+        try {
+            const response = await axios.put(`/api/employees/${id}`, payload);
+
+            Swal.fire(
+                "Updated!",
+                response.data.message,
+                "success"
+            );
+
+            await getEmployees();
+            return true;
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Update failed",
+                text: error.response?.data?.message || "Something went wrong",
+            });
+            return false;
+        }
+    };
+
+
     const destoryEmployee = async (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -69,6 +92,7 @@ export default function useRoles() {
         pagination, 
         query,
         getEmployees,
-        destoryEmployee
+        destoryEmployee,
+        updateEmployee,
     }
 }
