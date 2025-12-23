@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import useEmployees from "../../composables/employees.js";
 
-const { employees, pagination, query, is_loading, getEmployees } = useEmployees();
+const { employees, pagination, query, is_loading, getEmployees, destoryEmployee } = useEmployees();
 
 const employee = ref({});
 
@@ -14,6 +14,9 @@ const headers = [
     { title: "Actions", key: "actions", sortable: false },
 ];
 
+const deleteItem = async (item) => {
+    await destoryEmployee(item.IDNumber);
+}
 const reloadEmployees = async () => {
     await getEmployees();
     employee.value = {};
@@ -57,6 +60,7 @@ onMounted(() => {
                     </v-btn>
                     <v-btn
                         color="error"
+                        @click="deleteItem(item)"
                         variant="tonal"
                         size="small"
                     >
