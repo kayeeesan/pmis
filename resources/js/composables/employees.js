@@ -31,6 +31,34 @@ export default function useRoles() {
             });
     }
 
+    const destoryEmployee = async (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.value) {
+                axios
+                    .delete(`/api/employees/${id}`)
+                    .then((response) => {
+                        getEmployees();
+                        Swal.fire("Deleted", response.data.message, "success");
+                    })
+                    .catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Something went wrong!",
+                        });
+                    });
+            }
+        });
+    }
+
 
     return {
         employee,
@@ -41,5 +69,6 @@ export default function useRoles() {
         pagination, 
         query,
         getEmployees,
+        destoryEmployee
     }
 }

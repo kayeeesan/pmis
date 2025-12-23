@@ -13,5 +13,9 @@ class Employee extends Model
 
     protected $table = 'employee';
 
+    protected $primaryKey = 'IDNumber';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     public $timestamps = false;
 }
