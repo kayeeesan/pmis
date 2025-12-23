@@ -17,6 +17,10 @@ const libraries = [
     { title: 'Accounts', route: "/users" },
     { title: 'Employees', route: "/employees" },
 ];
+const files = [
+    { title: 'Supplier Masterfile'},
+    { title: 'Item Masterfile'},
+];
 
 const rail = ref(false);
 
@@ -55,6 +59,23 @@ watch(
                     :to="library.route"
                 ></v-list-item>
             </v-list-group>
+
+            <v-list-group value="Files">
+                <template v-slot:activator="{ props }">
+                    <v-list-item
+                    prepend-icon="mdi-folder-multiple"
+                    v-bind="props"
+                    title="Files"
+                    ></v-list-item>
+                </template>
+
+                <v-list-item
+                    v-for="file in files"
+                    :key="file.title"
+                    :title="file.title"
+                ></v-list-item>
+            </v-list-group>
+
         </v-list>
       </v-navigation-drawer>
 </template>
