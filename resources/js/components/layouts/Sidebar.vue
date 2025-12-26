@@ -18,8 +18,15 @@ const libraries = [
     { title: 'Employees', route: "/employees" },
 ];
 const files = [
-    { title: 'Supplier Masterfile'},
     { title: 'Item Masterfile'},
+    { title: 'Supplier Masterfile'},
+    { title: 'Department Masterfile'},
+    { title: 'Division Masterfile'},
+    { title: 'Section Masterfile'},
+    { title: 'Fixed Assets, and Properties'},
+    { title: 'Module/Report Masterfile'},
+    { title: 'Miscellaneous'},
+    { title: 'Projects'},
 ];
 
 const rail = ref(false);
