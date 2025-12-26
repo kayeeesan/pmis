@@ -14,6 +14,21 @@ class Item extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'propertyno' => $this->propertyno,
+            'item' => $this->item,
+            'unit' => $this->unit,
+            'descrip' => $this->descrip,
+            'classid' => $this->classid,
+            'yrlife' => $this->yrlife,
+            'reorderpt' => $this->reorderpt,
+            'reorderqty' => $this->reorderqty,
+            'edate' => $this->edate,
+            'itemtypeid' => $this->itemtypeid,
+            'status' => $this->status,
+            'criticalqty' => $this->criticalqty,
+            'allow' => $this->allow,
+            'propertycard' => $this->propertycard
+        ];
     }
 }
