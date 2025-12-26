@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\Employee as ResourcesEmployee;
 use App\Models\Employee;
+use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
@@ -14,7 +16,7 @@ class EmployeeController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $employees->items(),
+                'data' => ResourcesEmployee::collection($employees),
                 'meta' => [
                     'current_page' => $employees->currentPage(),
                     'last_page' => $employees->lastPage(),
@@ -33,29 +35,6 @@ class EmployeeController extends Controller
     }
 
 
-    public function show($id)
-    {
-        try {
-            $employee = Employee::findOrFail($id);
-
-            if ($employee) {
-                return response()->json([
-                    'success' => true,
-                    'data' => $employee,
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Employee not found',
-                ], 404);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error retrieving employee: ' . $e->getMessage(),
-            ], 500);
-        }
-    }
 
     public function update(Request $request, $id)
     {
@@ -74,7 +53,7 @@ class EmployeeController extends Controller
             return response()->json([
             'success' => true,
             'message' => 'Employee has been successfully updated.',
-            'data' => $employee
+            'data' => new ResourcesEmployee($employee),
         ]);
         } catch (\Exception $e) {
             return response()->json([
