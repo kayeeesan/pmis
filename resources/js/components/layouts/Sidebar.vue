@@ -8,11 +8,28 @@ const props = defineProps({
     },
 });
 
+const isHovering = ref(false);
+
+function onMouseEnter() {
+  if (mode.rail) {
+    isHovering.value = true;
+    open.value = true;
+    mode.rail = false; 
+  }
+}
+
+function onMouseLeave() {
+  if (mode.rail === false && isHovering.value) {
+    isHovering.value = false;
+    mode.rail = true;
+    open.value = true; 
+  }
+}
+
 const items = [
     { title: 'Home', icon: 'mdi-home', route: "/" },
 ];
 
-// collapsible section states
 const groups = reactive({
   libraries: true,
   files: false,
@@ -47,15 +64,13 @@ watch(
     () => props.drawer,
     (value)  => {
         if (value) {
-            // Open: full drawer, part of layout (content shifts)
             open.value = true;
             mode.rail = false;
             mode.floating = false;
             mode.app = true;
             mode.temporary = false;
         } else {
-            // Closed: keep a mini rail, floating over content (no layout shift)
-            open.value = true; // keep visible to show rail
+            open.value = true; 
             mode.rail = true;
             mode.floating = true;
             mode.app = false;
@@ -79,6 +94,8 @@ watch(
     border="end"
     theme="dark"
     class="sidebar-gradient"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
   >
     <v-sheet class="pa-4 d-flex align-center" color="transparent">
       <v-avatar color="cyan-darken-3" size="40" class="mr-3">
