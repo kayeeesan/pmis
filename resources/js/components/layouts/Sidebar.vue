@@ -4,7 +4,7 @@ import { ref, watch } from "vue";
 const props = defineProps({
     drawer: {
         type: Boolean,
-        default: null
+        default: false,
     },
 });
 
@@ -29,19 +29,20 @@ const files = [
     { title: 'Projects'},
 ];
 
-const rail = ref(false);
+const open = ref(true);
+const isRail = ref(true);
 
 watch(
     () => props.drawer,
     (value)  => {
-        rail.value = value;
-        console.log(value);
-        
+        // When drawer is active (true), expand to full width (rail=false)
+        // When inactive (false), collapse to rail (mini variant)
+        isRail.value = !value;
     }
 );
 </script>
 <template>
-    <v-navigation-drawer v-model="rail" app>
+    <v-navigation-drawer v-model="open" :rail="isRail" :permanent="true" app>
         <v-list>
             <template v-for="item in items">
                 <v-list-item
