@@ -40,6 +40,23 @@ export default function useAuth() {
     }
 
     const logout = async () => {
+
+        const result = await Swal.fire({
+            title: 'Logout',
+            text: 'Are you sure you want to logout?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, logout',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            focusCancel: true
+        });
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
         is_loading.value = true;
         await axios.post('/api/logout')
         .then(() => {
