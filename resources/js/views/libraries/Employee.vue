@@ -40,6 +40,8 @@ onMounted(() => {
 <template>
    <v-row class="p-2">
     <h5 class="fw-bold p-3">List of Employees</h5>
+    <v-spacer></v-spacer>
+    <v-btn color="primary" @click="showModalForm(true)">New Employee</v-btn>
    </v-row>
    <v-card>
     <div class="overflow-hidden overflow-x-auto min-w-full align-middle">

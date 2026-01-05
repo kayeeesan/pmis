@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { get } from '@vueuse/core';
 
 export default function useRoles() {
     const employee = ref(null);
@@ -20,7 +21,7 @@ export default function useRoles() {
         let query_str = { ...query.value, ...params };
         await axios
             .get('/api/employees', {
-                params: query.value
+                params: query_str
             })
             .then((response) => {
                 employees.value = response.data.data;
@@ -30,6 +31,47 @@ export default function useRoles() {
                 is_loading.value = false;
             });
     }
+
+    const storeEmployee = async (payload) => {
+        is_loading.value = true;
+        errors.value = {};
+
+        try {
+            const response = await axios.post('/api/employees', payload);
+
+            Swal.fire(
+                "Saved!",
+                response.data.message,
+                "success"
+            );
+
+            await getEmployees();
+            return true;
+
+        } catch (error) {
+            if (error.response?.status === 422) {
+                errors.value = error.response.data.errors || {};
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Validation failed",
+                    text: "Please check the form fields.",
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Save failed",
+                    text: error.response?.data?.message || "Something went wrong",
+                });
+            }
+
+            return false;
+
+        } finally {
+            is_loading.value = false;
+        }
+    };
+
 
     const updateEmployee = async (id, payload) => {
         try {
@@ -94,5 +136,6 @@ export default function useRoles() {
         getEmployees,
         destoryEmployee,
         updateEmployee,
+        storeEmployee
     }
 }

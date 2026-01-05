@@ -4,7 +4,7 @@ import useItems from "../../composables/items"
 import { get } from '@vueuse/core';
 import ItemForm from "../../components/files/items/Form.vue"
 
-const { items, pagination, query, is_loading, getItems, destoryItem } = useItems();
+const { items, pagination, query, is_loading, getItems, destoryItem, storeEmployee } = useItems();
 
 const item = ref({});
 const show_form_modal = ref(false);
@@ -52,6 +52,7 @@ onMounted(() => {
 <template>
     <v-row class="p-2">
         <h5 class="fw-bold p-3">List of Items</h5>
+        <v-spacer></v-spacer>
     </v-row>
     <v-card>
         <div  class="overflow-hidden overflow-x-auto min-w-full align-middle">
