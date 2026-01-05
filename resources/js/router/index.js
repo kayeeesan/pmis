@@ -7,7 +7,6 @@ import App from '../views/App.vue';
 import Home from '../components/layouts/Home.vue';
 import Accounts from '../views/users/Account.vue';
 import Roles from '../views/libraries/Role.vue';
-import Employees from '../views/libraries/Employee.vue';
 
 import Items from '../views/files/Items.vue';
 
@@ -51,11 +50,6 @@ const routes = [
                 path: '/roles',
                 name: 'roles',
                 component: Roles
-            },
-            {
-                path: '/employees',
-                name: 'employees',
-                component: Employees
             },
             {
                 path: '/items',

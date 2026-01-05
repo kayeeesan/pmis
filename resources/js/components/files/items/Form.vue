@@ -2,7 +2,7 @@
 import { ref, reactive, watch, onMounted } from "vue";
 import useItems from "../../../composables/items.js";
 
-const { errors, is_loading, is_success, updateItem} = useItems();
+const { errors, is_loading, is_success, updateItem, storeItem} = useItems();
 
 const emit = defineEmits(["input", "reloadItem"]);
 const props = defineProps({
@@ -72,31 +72,16 @@ const close = () => {
     errors.value = {};
 }
 
-const submitForm = async () => {
-    if (!form.id) return;
+const save = async () => {
+    if(props.item && props.item.id) {
+        await updateItem({ ...form});
+    } else {
+        await storeItem({ ...form});
+    }
 
-    const payload = {
-        propertyno: form.propertyno,
-        item: form.item,
-        unit: form.unit,
-        descrip: form.descrip,
-        classid: form.classid,
-        yrlife: form.yrlife,
-        reorderpt: form.reorderpt,
-        reorderqty: form.reorderqty,
-        edate: form.edate,
-        itemtypeid: form.itemtypeid,
-        status: form.status,
-        criticalqty: form.criticalqty,
-        allow: form.allow,
-        propertycard: form.propertycard,
-    };
-
-    const success = await updateItem(props.item.id, payload);
-
-    if (success) {
+    if (is_success.value == true){
         emit("reloadItems");
-        close();
+        emit("input", false);
     }
 }
 
@@ -258,7 +243,7 @@ const submitForm = async () => {
             <v-btn color="blue-grey-lighten-2" @click="close()" variant="tonal">
                     Cancel
                 </v-btn>
-                <v-btn color="primary" @click="submitForm()" variant="tonal">
+                <v-btn color="primary" @click="save()" variant="tonal">
                     Save
                 </v-btn>
         </v-card-actions>

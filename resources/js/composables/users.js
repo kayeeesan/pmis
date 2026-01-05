@@ -80,7 +80,7 @@ export default function useUsers() {
         }
     }
 
-    const destoryUser = async (id) => {
+    const destroyUser = async (id) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -119,7 +119,7 @@ export default function useUsers() {
         querySearch,
         storeUser,
         updateUser,
-        destoryUser,
+        destroyUser,
         getUsers,
     }
 }

@@ -5,77 +5,78 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\Item as ResourcesItem;
 use App\Models\Item;
+use App\Http\Requests\ItemRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class ItemController extends Controller
 {
     public function index(Request $request)
     {
+       $items = [];
+       if (isset($request->search)) {
+        $items = Item::where('propertyno', 'like', '%' .$request->search . '%');
+       }
+
+       $items = isset($request->search) && $request->search ?
+       $items->paginate(10) : Item::paginate(10);
+       return ResourcesItem::collection($items);
+    }
+
+    public function store(ItemRequest $request)
+    {
         try {
-            $items = Item::paginate(10);
-            
-            return response()->json([
-                'success' => true,
-                'data' => ResourcesItem::collection($items),
-                'meta' => [
-                    'current_page' => $items->currentPage(),
-                    'last_page' => $items->lastPage(),
-                    'per_page' => $items->perPage(),
-                    'total' => $items->total(),
-                    'from' => $items->firstItem(),
-                    'to' => $items->lastItem(),
-                ],
-            ]);
+            $item = new Item();
+            $item->propertyno = ucwords($request->propertyno);
+            $item->item = $request->item;
+            $item->unit = $request->unit;
+            $item->descrip = $request->descrip;
+            $item->classid = $request->classid;
+            $item->yrlife = $request->yrlife;
+            $item->reorderpt = $request->reorderpt;
+            $item->reorderqty = $request->reorderqty;
+            $item->edate = $request->edate;
+            $item->itemtypeid = $request->itemtypeid;
+            $item->status = $request->status;
+            $item->criticalqty  = $request->criticalqty;
+            $item->allow = $request->allow ?? false;
+            $item->propertycard = $request->propertycard;
+            $item->save();
+
+            return response()->json(['message' => 'Item has been successfully saved']);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error connecting to legacy DB: ' . $e->getMessage(),
-            ], 500);
+            return response()->json(['message' => $e->getMessage()]);
         }
     }
 
     public function update(Request $request, $id)
     {
-        try {
+       try {
             $item = Item::findOrFail($id);
+             $item->propertyno   = ucwords($request->propertyno);
+            $item->item = $request->item;
+            $item->unit = $request->unit;
+            $item->descrip = $request->descrip;
+            $item->classid = $request->classid;
+            $item->yrlife = $request->yrlife;
+            $item->reorderpt = $request->reorderpt;
+            $item->reorderqty = $request->reorderqty;
+            $item->edate = $request->edate;
+            $item->itemtypeid = $request->itemtypeid;
+            $item->status = $request->status;
+            $item->criticalqty = $request->criticalqty;
+            $item->allow = $request->allow ?? false;
+            $item->propertycard = $request->propertycard;
+            $item->update();
 
-            $item->update($request->only([
-                'propertyno',
-                'item',
-                'unit',
-                'descrip',
-                'classid',
-                'yrlife',
-                'reorderpt',
-                'reorderqty',
-                'edate',
-                'itemtypeid',
-                'status',
-                'criticalqty',
-                'allow',
-                'propertycard'
-            ]));
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Item has been successfully updated.',
-                'data' => new ResourcesItem($item),
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
+            return response(['message' => 'Item has been successfully updated.']);
+       } catch (\Exception $e) {
+        return response(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
+       }
     }
 
     public function destroy($id)
     {
-        $item = Item::findOrFail($id);
-        $item->delete();
-
-        return response()->json([
-            'message' => 'Item has been successfully deleted.',
-        ]);
+        Item::findOrFail($id)->delete();
+        return response(['message' => 'Item has been successfully deleted!']);
     }
 }

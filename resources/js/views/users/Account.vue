@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import UserForm from "../../components/users/Form.vue";
 import useUsers from "../../composables/users.js";
 
-const { users, pagination, querySearch, is_loading, getUsers, destoryUser } = useUsers();
+const { users, pagination, querySearch, is_loading, getUsers, destroyUser } = useUsers();
 
 const user = ref({});
 const show_form_modal = ref(false);
@@ -34,7 +34,7 @@ const editItem = (value) => {
 };
 
 const deleteItem = async (value) => {
-    await destoryUser(value.id);
+    await destroyUser(value.id);
 };
 
 const reloadUsers = async () => {

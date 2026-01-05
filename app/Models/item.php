@@ -2,18 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class item extends Model
+class Item extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql_old';
-
-    protected $table = 'item';
-
-    public $timestamps = false;
+    protected $table = 'items';
 
     protected $fillable = [
         'propertyno',

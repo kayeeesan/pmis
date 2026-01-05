@@ -4,7 +4,7 @@ import useItems from "../../composables/items"
 import { get } from '@vueuse/core';
 import ItemForm from "../../components/files/items/Form.vue"
 
-const { items, pagination, query, is_loading, getItems, destoryItem, storeEmployee } = useItems();
+const { items, pagination, query, is_loading, getItems, destroyItem } = useItems();
 
 const item = ref({});
 const show_form_modal = ref(false);
@@ -32,7 +32,7 @@ const showModalForm = (val) => {
 }
 
 const deleteItem = async (value) => {
-    await destoryItem(value.id);
+    await destroyItem(value.id);
 }
 
 const editItem = (value) => {
@@ -53,6 +53,7 @@ onMounted(() => {
     <v-row class="p-2">
         <h5 class="fw-bold p-3">List of Items</h5>
         <v-spacer></v-spacer>
+        <v-btn color="primary" @click="showModalForm(true)" class="m-3">New Item</v-btn>
     </v-row>
     <v-card>
         <div  class="overflow-hidden overflow-x-auto min-w-full align-middle">
