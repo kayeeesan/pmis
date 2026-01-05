@@ -2,7 +2,7 @@
 import { ref, reactive, watch, onMounted } from "vue";
 import useEmployees from "../../composables/employees.js";
 
-const { errors, is_loading, is_success, updateEmployee } = useEmployees();
+const { errors, is_loading, is_success, updateEmployee, storeEmployee } = useEmployees();
 
 const emit = defineEmits(["input", "reloadEmployees"]);
 const props = defineProps({
@@ -30,13 +30,20 @@ const form = reactive({ ...initialState});
 watch(
     () => props.employee,
     (value)  => {
+
+        if (!value) {
+            Object.assign(form, initialState);
+            return;
+        }
+
         form.IDNumber = value.IDNumber;
         form.FirstName = value.FirstName;
         form.LastName = value.LastName;
         form.Address = value.Address;
         form.PhoneNo = value.PhoneNo;
         form.Status = value.Status;
-    }
+    },
+    { immediate: true}
 );
 
 const show_form_modal = ref(false);
@@ -54,8 +61,6 @@ const close = () => {
 }
 
 const submitForm = async () => {
-    if (!form.IDNumber) return; 
-
     const payload = {
         FirstName: form.FirstName,
         LastName: form.LastName,
@@ -64,13 +69,20 @@ const submitForm = async () => {
         Status: form.Status,
     };
 
-    const success = await updateEmployee(form.IDNumber, payload);
+    let success = false;
+
+    if (form.IDNumber) {
+        success = await updateEmployee(form.IDNumber, payload);
+    } else {
+        success = await storeEmployee(payload);
+    }
 
     if (success) {
-        emit("reloadEmployees"); 
-        close(); 
+        emit("reloadEmployees");
+        close();
     }
 };
+
 
 
 </script>

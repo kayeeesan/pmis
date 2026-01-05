@@ -20,6 +20,7 @@ class Employee extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'IDNumber',
         'FirstName',
         'LastName',
         'MiddleName',

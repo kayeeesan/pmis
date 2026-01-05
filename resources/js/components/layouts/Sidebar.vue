@@ -113,7 +113,7 @@ watch(
         </v-avatar>
         <div v-if="!mode.rail" class="logo-text">
           <div class="font-weight-bold text-white text-h6">ZCWD PMIS</div>
-          <div class="text-caption text-grey-lighten-2">Property Management System</div>
+          <div class="text-caption text-grey-lighten-2">Property Management and Inventory System</div>
         </div>
       </div>
     </v-sheet>

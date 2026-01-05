@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\Employee as ResourcesEmployee;
 use App\Models\Employee;
+use App\Http\Requests\EmployeeRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
@@ -12,7 +13,8 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         try {
-            $employees = Employee::paginate(10);
+            $employees = Employee::orderByRaw('CAST(IDNumber AS UNSIGNED) DESC')
+            ->paginate(10);;
 
             return response()->json([
                 'success' => true,
@@ -34,9 +36,33 @@ class EmployeeController extends Controller
         }
     }
 
+    public function store(EmployeeRequest $request){
+        try {
+            $lastEmployee = Employee::orderByRaw('CAST(IDNumber AS UNSIGNED) DESC')->first();
 
+            $nextIdNumber = $lastEmployee
+                ? str_pad(((int) $lastEmployee->IDNumber) + 1, 3, '0', STR_PAD_LEFT)
+                : '001';
 
-    public function update(Request $request, $id)
+                $employee = Employee::create(array_merge(
+                    ['IDNumber' => $nextIdNumber],
+                    $request->validated()
+                ));
+
+                return response()->json([
+                    "success" => true,
+                    "message" => "Employee has been successfully saved.",
+                    "data" => new ResourcesEmployee($employee)
+                ], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json([
+                "success" => false,
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update(EmployeeRequest $request, $id)
     {
         try {
             $employee = Employee::findOrFail($id);
