@@ -48,7 +48,8 @@ watch (
         form.yrlife = value.yrlife;
         form.reorderpt = value.reorderpt;
         form.reorderqty = value.reorderqty;
-        form.edate = value.edate;
+        form.edate = value.edate
+            ? value.edate.substring(0, 10) : null;
         form.itemtypeid = value.itemtypeid;
         form.status = value.status;
         form.criticalqty = value.criticalqty;
@@ -108,102 +109,144 @@ const submitForm = async () => {
         </v-card-title>
 
         <v-card-text>
-            <v-container>
+             <v-container>
+                <!-- Basic Information -->
                 <v-row>
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium mb-3">Basic Information</div>
+                    </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.propertyno"
                             label="Property No."
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.item"
                             label="Item"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
-                </v-row>
-                <v-row>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.unit"
                             label="Unit"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.descrip"
                             label="Description"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
-                <v-row>
+
+                <!-- Classification -->
+                <v-row class="mt-2">
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium mb-3">Classification</div>
+                    </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.classid"
                             label="Class ID"
-                        ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                        <v-text-field
-                            v-model="form.yrlife"
-                            label="Year Life"
-                        ></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" sm="6">
-                        <v-text-field
-                            v-model="form.reorderpt"
-                            label="Reorder Point"
-                        ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                        <v-text-field
-                            v-model="form.reorderqty"
-                            label="Reorder Qty"
-                        ></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" sm="6">
-                        <v-text-field
-                            v-model="form.edate"
-                            label="Entry Date"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.itemtypeid"
                             label="Item Type ID"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
-                </v-row>
-                <v-row>
+                    <v-col cols="12" sm="6">
+                        <v-text-field
+                            v-model="form.yrlife"
+                            label="Year Life"
+                            density="compact"
+                            outlined
+                        ></v-text-field>
+                    </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.status"
                             label="Status"
+                            density="compact"
+                            outlined
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+
+                <!-- Inventory Settings -->
+                <v-row class="mt-2">
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium mb-3">Inventory Settings</div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-text-field
+                            v-model="form.reorderpt"
+                            label="Reorder Point"
+                            density="compact"
+                            outlined
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-text-field
+                            v-model="form.reorderqty"
+                            label="Reorder Qty"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.criticalqty"
                             label="Critical Qty"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
-                </v-row>
-                <v-row>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.allow"
                             label="Allow"
+                            density="compact"
+                            outlined
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+
+                <!-- Additional Information -->
+                <v-row class="mt-2">
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium mb-3">Additional Information</div>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-text-field
+                            v-model="form.edate"
+                            label="Entry Date"
+                            type="date"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
                         <v-text-field
                             v-model="form.propertycard"
                             label="Property Card"
+                            density="compact"
+                            outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
