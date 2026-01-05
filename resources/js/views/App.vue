@@ -52,8 +52,8 @@ onUnmounted(() => {
                     <v-icon icon="mdi-account" color="blue-darken-3"></v-icon>
                 </v-avatar>
                 <div class="text-right">
-                    <div class="text-subtitle-2 font-weight-medium">{{ user.full_name }}</div>
-                    <div class="text-caption text-grey">{{ user.roles[0]?.name}}</div>
+                    <div class="text-subtitle-2 font-weight-medium">{{ user?.full_name || 'Guest' }}</div>
+                    <div class="text-caption text-grey">{{ user?.roles?.[0]?.name || '' }}</div>
                 </div>
             </div>
             

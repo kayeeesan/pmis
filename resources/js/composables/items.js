@@ -16,65 +16,89 @@ export default function useItems() {
     });
 
    const getItems = async (params = {}) => {
-        is_loading.value = true;
+    is_loading.value = true;
 
-        let query_str = { ...query.value, ...params };
-        await axios
-            .get('/api/items', {
-                params: query.value
-            })
+    let query_str = { ...query.value, ...params };
+    await axios 
+        .get('/api/items?page=' + query.value.page, query_str)
+        .then((response) => {
+            items.value = response.data.data;
+            pagination.value = response.data.meta;
+            is_loading.value = false;
+        })
+   }
+
+   const storeItem = async (data) => {
+    is_loading.value = true;
+    errors.value = "";
+
+    try{
+        await axios 
+            .post(`/api/items`, data)
             .then((response) => {
-                items.value = response.data.data;
-                pagination.value = response.data.meta;
-            })
-            .finally(() => {
+                Swal.fire({
+                    title: "Success",
+                    icon: "success",
+                    text: response.data.message,
+                });
+                errors.value = {};
                 is_loading.value = false;
-            }); 
-        }
-
-    const updateItem = async (id, payload) => {
-        try {
-            const response = await axios.put(`/api/items/${id}`, payload);
-            Swal.fire(
-                "Updated!",
-                response.data.message,
-                "success"
-            );
-
-            await getItems();
-            return true;
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Update failed",
-                text: error.response?.data?.message || "Something went wrong",
+                is_success.value = true;
             });
-            return false;
+    } catch (e) {
+        if(e.response.status == 422) {
+                errors.value = e.response.data;
+                is_success.value = false;
+                is_loading.value = false;
+            }
         }
-    };
+   }
 
-    const destoryItem = async (id) => {
+   const updateItem = async (data) => {
+        errors.value = "";
+        is_loading.value = true;
+        item.value = data;
+
+        try {
+            await axios
+                .patch(`/api/items/${item.value.id}`, item.value)
+                .then((response) => {
+                     Swal.fire({
+                     title: "Success",
+                     icon: "success",
+                     text: response.data.message,
+                 });
+                errors.value = {};
+                is_loading.value = false;
+                is_success.value = true;
+                })
+        } catch (e) {
+            if(e.response.status == 422) {
+                errors.value = e.response.data;
+                is_success.value = false;
+                is_loading.value = false;
+            }
+        }
+   }
+
+   const destroyItem = async (id) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
             confirmButtonText: "Yes, delete it!",
-        }).then(async (result) => {
+        }).then((result) => {
             if (result.value) {
-                axios  
+                axios
                     .delete(`/api/items/${id}`)
                     .then((response) => {
                         getItems();
-                        Swal.fire(
-                            "Deleted!",
-                            response.data.message,
-                            "success"
-                        );
+                        Swal.fire("Deleted", response.data.message, "success");
                     })
-                    .catch(() => {
+                     .catch(() => {
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
@@ -82,8 +106,8 @@ export default function useItems() {
                         });
                     });
             }
-        });
-    };
+        })
+   }
 
     return {
         item,
@@ -95,6 +119,7 @@ export default function useItems() {
         query,
         getItems,
         updateItem,
-        destoryItem,
+        destroyItem,
+        storeItem
     }
 }
