@@ -184,6 +184,7 @@ watch(
           :key="file.title"
           :prepend-icon="file.icon"
           :title="file.title"
+          :to="file.route"
           rounded
           active-class="active-item"
           class="ml-4"
