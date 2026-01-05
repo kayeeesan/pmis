@@ -138,15 +138,15 @@ const submitForm = async () => {
                     </v-row>
                 </v-container>
             </v-card-text>
-
+            
             <v-card-actions class="mb-4 mr-5">
-                <v-spacer></v-spacer>
+                    <v-spacer></v-spacer>
                 <v-btn color="blue-grey-lighten-2" @click="close()" variant="tonal">
                     Cancel
                 </v-btn>
-                <v-btn color="primary" variant="tonal" @click="submitForm" :loading="is_loading">
+                <v-btn color="primary" variant="tonal" @click="submitForm">
                     Save
-                </v-btn>
+                    </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
