@@ -33,4 +33,49 @@ class ItemController extends Controller
             ], 500);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $item = Item::findOrFail($id);
+
+            $item->update($request->only([
+                'propertyno',
+                'item',
+                'unit',
+                'descrip',
+                'classid',
+                'yrlife',
+                'reorderpt',
+                'reorderqty',
+                'edate',
+                'itemtypeid',
+                'status',
+                'criticalqty',
+                'allow',
+                'propertycard'
+            ]));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Item has been successfully updated.',
+                'data' => new ResourcesItem($item),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $item = Item::findOrFail($id);
+        $item->delete();
+
+        return response()->json([
+            'message' => 'Item has been successfully deleted.',
+        ]);
+    }
 }

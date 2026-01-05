@@ -8,6 +8,9 @@ import Home from '../components/layouts/Home.vue';
 import Accounts from '../views/users/Account.vue';
 import Roles from '../views/libraries/Role.vue';
 import Employees from '../views/libraries/Employee.vue';
+
+import Items from '../views/files/Items.vue';
+
 import UpdatePassword from "../components/users/UpdatePassword.vue";
 
 const routes = [
@@ -53,6 +56,11 @@ const routes = [
                 path: '/employees',
                 name: 'employees',
                 component: Employees
+            },
+            {
+                path: '/items',
+                name: 'items',
+                component: Items
             }
         ]
     },

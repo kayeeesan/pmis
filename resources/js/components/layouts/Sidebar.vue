@@ -43,19 +43,18 @@ const libraries = [
     { title: 'Employees', icon: 'mdi-badge-account', route: "/employees" },
 ];
 
-const masterfiles = [
-    { title: 'Item Masterfile', icon: 'mdi-package-variant' },
+const files = [
+    { title: 'Item Masterfile', icon: 'mdi-package-variant', route: "/items" },
     { title: 'Supplier Masterfile', icon: 'mdi-truck-delivery' },
     { title: 'Department Masterfile', icon: 'mdi-office-building' },
     { title: 'Section Masterfile', icon: 'mdi-home-group' },
-];
-
-const assets = [
     { title: 'Fixed Assets', icon: 'mdi-desk' },
     { title: 'Properties', icon: 'mdi-home-city' },
     { title: 'Asset Transfers', icon: 'mdi-swap-horizontal' },
     { title: 'Asset Maintenance', icon: 'mdi-tools' },
 ];
+
+
 
 const mode = reactive({
   rail: true,
@@ -172,7 +171,7 @@ watch(
           <v-list-item
             v-bind="props"
             prepend-icon="mdi-folder-multiple-outline"
-            title="Master Files"
+            title="Files"
             class="text-white"
           >
             <template #prepend>
@@ -181,7 +180,7 @@ watch(
           </v-list-item>
         </template>
         <v-list-item
-          v-for="file in masterfiles"
+          v-for="file in files"
           :key="file.title"
           :prepend-icon="file.icon"
           :title="file.title"
@@ -191,30 +190,7 @@ watch(
         />
       </v-list-group>
 
-      <!-- Assets Section -->
-      <v-list-group v-model="groups.assets" value="assets">
-        <template #activator="{ props }">
-          <v-list-item
-            v-bind="props"
-            prepend-icon="mdi-home-analytics"
-            title="Assets"
-            class="text-white"
-          >
-            <template #prepend>
-              <v-icon icon="mdi-home-analytics" class="mr-3"></v-icon>
-            </template>
-          </v-list-item>
-        </template>
-        <v-list-item
-          v-for="asset in assets"
-          :key="asset.title"
-          :prepend-icon="asset.icon"
-          :title="asset.title"
-          rounded
-          active-class="active-item"
-          class="ml-4"
-        />
-      </v-list-group>
+     
 
       <v-divider class="my-3" color="white" opacity="0.12"></v-divider>
 
@@ -239,7 +215,7 @@ watch(
       <div class="pa-4 text-center">
         <v-icon icon="mdi-shield-check" color="green-lighten-2" class="mb-2"></v-icon>
         <div class="text-caption text-grey-lighten-3">ZCWD Property Management</div>
-        <div class="text-caption text-grey-lighten-2">Inventory System v1.0</div>
+        <div class="text-caption text-grey-lighten-2">and Inventory System v1.0</div>
       </div>
     </template>
   </v-navigation-drawer>

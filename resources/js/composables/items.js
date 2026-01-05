@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { get } from '@vueuse/core';
 
 export default function useItems() {
     const item = ref(null);
@@ -31,7 +32,7 @@ export default function useItems() {
             }); 
         }
 
-        const updateItem = async (id, payload) => {
+    const updateItem = async (id, payload) => {
         try {
             const response = await axios.put(`/api/items/${id}`, payload);
             Swal.fire(
@@ -62,10 +63,24 @@ export default function useItems() {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
         }).then(async (result) => {
-            if (result.isConfirmed) {
-                await axios.delete(`/api/items/${id}`);
-                Swal.fire("Deleted!", "Item has been deleted.", "success");
-                await getItems();
+            if (result.value) {
+                axios  
+                    .delete(`/api/items/${id}`)
+                    .then((response) => {
+                        getItems();
+                        Swal.fire(
+                            "Deleted!",
+                            response.data.message,
+                            "success"
+                        );
+                    })
+                    .catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Something went wrong!",
+                        });
+                    });
             }
         });
     };
@@ -77,6 +92,7 @@ export default function useItems() {
         is_success,
         errors,
         pagination,
+        query,
         getItems,
         updateItem,
         destoryItem,
