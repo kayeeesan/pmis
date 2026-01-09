@@ -30,7 +30,7 @@ class DepartmentController extends Controller
         try {
             $department = new Department();
             $department->name = ucwords($request->name);
-            $department->code = Str::upper(Str::slug($request->name));
+            $department->code = Str::upper($request->code);
             $department->save();
 
             return response()->json(['message' => 'Department has been successfully saved.']);
@@ -44,7 +44,7 @@ class DepartmentController extends Controller
         try {
             $department = Department::findOrFail($uuid);
             $department->name = ucwords($request->name);
-            $department->code = Str::upper(Str::slug($request->name));
+            $department->code = Str::upper($request->code);
             $department->update();
 
             return response()->json(['message' => 'Department has been successfully updated.']);

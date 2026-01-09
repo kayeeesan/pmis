@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import useDepartment from "../../composables/department"
+import useDepartment from "../../composables/department";
+import DepartmentForm from "../../components/files/departments/Form.vue";
 
 const { departments, pagination, query, is_loading, getDepartments, destroyDepartment } = useDepartment();
 
 const department = ref({});
+const show_form_modal = ref(false);
 
 const headers = [
     { title: "Department Name", key: "name" },
@@ -12,11 +14,18 @@ const headers = [
     { title: "Actions", key: "actions", sortable: false },
 ];
 
-
-const deleteDepartment = async (value) => {
-    await destroyDepartment(value.uuid);
+const showModalForm = (val) => {
+    show_form_modal.value = val;
 }
 
+const editItem = (value) => {
+    department.value = value;
+    showModalForm(true);
+}
+
+const deleteItem = async (value) => {
+    await destroyDepartment(value.uuid);
+}
 
 const reloadDepartments = async () => {
     await getDepartments();
@@ -31,7 +40,7 @@ onMounted(() => {
     <v-row class="p-2">
         <h5 class="fw-bold p-3">List of Departments</h5>
         <v-spacer></v-spacer>
-        <v-btn color="primary" class="m-3">
+        <v-btn color="primary" @click="showModalForm(true)" class="m-3">
             New Department
         </v-btn>
     </v-row>
@@ -60,12 +69,13 @@ onMounted(() => {
                         color="success"
                         variant="tonal"
                         size="small"
+                        @click="editItem(item)"
                     >
                         <v-icon size="small"> mdi-pencil </v-icon> Edit
                     </v-btn>
                     <v-btn
                         color="error"
-                        @click="deleteDepartment(item)"
+                        @click="deleteItem(item)"
                         variant="tonal"
                         size="small"
                     >
@@ -92,11 +102,11 @@ onMounted(() => {
                 </template>
             </v-data-table>
         </div>
+    </v-card>
     <department-form
         :value="show_form_modal"
         :department="department"
         @input="showModalForm"
-        @reloadItems="reloadDepartments"
+        @reloadDepartment="reloadDepartments"
     />
-    </v-card>
 </template>

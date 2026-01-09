@@ -29,8 +29,10 @@ class DepartmentRequest extends FormRequest
         } else {
             return [
                 'name' => 'sometimes|required|string|max:255',
-                'code' => 'sometimes|required|string|max:50|unique:departments,code,' . $this->route('department')->uuid . ',uuid',
+                'code' => 'sometimes|required|string|max:50|unique:departments,code,' 
+                        . $this->route('department') . ',uuid',
             ];
         }
     }
+
 }
