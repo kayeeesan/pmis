@@ -246,7 +246,7 @@ watch(
 }
 
 .v-navigation-drawer.v-navigation-drawer--rail {
-  width: 70px !important;
+  width: 83px !important;
 }
 
 .active-item {
