@@ -5,6 +5,7 @@ import useItems from "../../../composables/items.js";
 const { errors, is_loading, is_success, updateItem, storeItem} = useItems();
 
 const emit = defineEmits(["input", "reloadItem"]);
+
 const props = defineProps({
     item: {
         type: Object,
