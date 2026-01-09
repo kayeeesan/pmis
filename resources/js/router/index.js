@@ -8,6 +8,7 @@ import Home from '../components/layouts/Home.vue';
 import Accounts from '../views/users/Account.vue';
 import Roles from '../views/libraries/Role.vue';
 
+import Departments from '../views/files/departments.vue';
 import Items from '../views/files/Items.vue';
 
 import UpdatePassword from "../components/users/UpdatePassword.vue";
@@ -55,6 +56,11 @@ const routes = [
                 path: '/items',
                 name: 'items',
                 component: Items
+            },
+            {
+                path: '/departments',
+                name: 'departments',
+                component: Departments
             }
         ]
     },

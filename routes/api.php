@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\DepartmentController;
 use Dom\Document;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,5 @@ Route::middleware('auth:sanctum')->group(function  () {
     Route::resource('/roles', RoleController::class);
     Route::post('/set-password', [AuthController::class, 'setPassword']);
     Route::resource('/items', ItemController::class);
+    Route::resource('/departments', DepartmentController::class);
 });
