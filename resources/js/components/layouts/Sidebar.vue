@@ -45,7 +45,8 @@ const libraries = [
 const files = [
     { title: 'Item Masterfile', icon: 'mdi-package-variant', route: "/items" },
     { title: 'Supplier Masterfile', icon: 'mdi-truck-delivery' },
-    { title: 'Department Masterfile', icon: 'mdi-office-building', route: "/departments" },
+    { title: 'Department Masterfile', icon: 'mdi-domain', route: "/departments" },
+    { title: 'Division Masterfile', icon: 'mdi-office-building' },
     { title: 'Section Masterfile', icon: 'mdi-home-group' },
     { title: 'Fixed Assets', icon: 'mdi-desk' },
     { title: 'Properties', icon: 'mdi-home-city' },
