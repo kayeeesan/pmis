@@ -40,13 +40,13 @@ const groups = reactive({
 const libraries = [
     { title: 'Users', icon: 'mdi-account-group', route: "/users" },
     { title: 'Roles', icon: 'mdi-shield-account', route: "/roles" },
+    { title: 'Employees', icon: 'mdi-badge-account', route: "/employees" },
 ];
 
 const files = [
     { title: 'Item Masterfile', icon: 'mdi-package-variant', route: "/items" },
     { title: 'Supplier Masterfile', icon: 'mdi-truck-delivery' },
-    { title: 'Department Masterfile', icon: 'mdi-domain', route: "/departments" },
-    { title: 'Division Masterfile', icon: 'mdi-office-building' },
+    { title: 'Department Masterfile', icon: 'mdi-office-building' },
     { title: 'Section Masterfile', icon: 'mdi-home-group' },
     { title: 'Fixed Assets', icon: 'mdi-desk' },
     { title: 'Properties', icon: 'mdi-home-city' },
@@ -246,7 +246,7 @@ watch(
 }
 
 .v-navigation-drawer.v-navigation-drawer--rail {
-  width: 83px !important;
+  width: 70px !important;
 }
 
 .active-item {
