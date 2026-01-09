@@ -6,6 +6,7 @@ import DepartmentForm from "../../components/files/departments/Form.vue";
 const { departments, pagination, query, is_loading, getDepartments, destroyDepartment } = useDepartment();
 
 const department = ref({});
+const action_type = ref('');
 const show_form_modal = ref(false);
 
 const headers = [
@@ -18,8 +19,9 @@ const showModalForm = (val) => {
     show_form_modal.value = val;
 }
 
-const editItem = (value) => {
+const editItem = (value, action) => {
     department.value = value;
+    action_type.value = action;
     showModalForm(true);
 }
 
@@ -69,7 +71,7 @@ onMounted(() => {
                         color="success"
                         variant="tonal"
                         size="small"
-                        @click="editItem(item)"
+                        @click="editItem(item, 'Update')"
                     >
                         <v-icon size="small"> mdi-pencil </v-icon> Edit
                     </v-btn>
@@ -106,6 +108,7 @@ onMounted(() => {
     <department-form
         :value="show_form_modal"
         :department="department"
+        :action_type="action_type"
         @input="showModalForm"
         @reloadDepartment="reloadDepartments"
     />
