@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import App from './views/App.vue';
+import router from './router/index.js';
 import '../css/app.css'; 
 
 import PrimeVue from 'primevue/config';
@@ -9,6 +10,8 @@ import 'primeicons/primeicons.css';
 
 const app = createApp(App);
 
+app.use(router);
+
 app.use(PrimeVue, {
     theme: {
         preset: Lara
@@ -16,3 +19,4 @@ app.use(PrimeVue, {
 });
 
 app.mount('#app');
+
