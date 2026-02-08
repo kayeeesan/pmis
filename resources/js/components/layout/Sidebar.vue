@@ -18,8 +18,8 @@ const menuItems = [
     label: 'Libraries',
     icon: 'pi pi-database',
     children: [
-      { label: 'User', icon: 'pi pi-user', route: '/libraries/user' },
-      { label: 'Employee', icon: 'pi pi-id-card', route: '/libraries/employee' }
+      { label: 'User', icon: 'pi pi-user', route: '/users' },
+      { label: 'Role', icon: 'pi pi-id-card', route: '/roles' }
     ]
   }
 ];

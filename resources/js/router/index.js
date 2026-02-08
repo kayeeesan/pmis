@@ -7,6 +7,10 @@ import Home from '../components/layout/Home.vue';
 import PageNotFound from '../components/layout/PageNotFound.vue';
 import material from '../components/material/form.vue';
 
+//libraries
+
+import User from '../views/libraries/user.vue';
+import Role from '../views/libraries/role.vue';
 
 const routes = [
     {
@@ -32,6 +36,16 @@ const routes = [
                 name: 'home',
                 component: Home
             },
+           {
+                path: '/users',
+                name: 'users',
+                component: User
+           },
+           {
+                path: '/roles',
+                name: 'roles',
+                component: Role
+           },
            
         ]
     },
