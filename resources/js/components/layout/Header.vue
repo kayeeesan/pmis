@@ -1,53 +1,49 @@
-<!-- resources/js/components/layout/Header.vue -->
 <script setup>
-import { ref } from 'vue';
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import useAuth from '@/composables/auth'
 
-defineEmits(['toggle-sidebar']);
+defineEmits(['toggle-sidebar'])
 
-// User dropdown state
-const showDropdown = ref(false);
+const store = useStore()
+const { logout, is_loading } = useAuth()
 
-// Close dropdown when clicking outside
-const closeDropdown = () => {
-  showDropdown.value = false;
-};
+const user = computed(() => store.state.auth.user)
+
+const fullName = computed(() => {
+  if (!user.value) return ''
+  return (
+    user.value.full_name ||
+    `${user.value.first_name ?? ''} ${user.value.last_name ?? ''}`.trim()
+  )
+})
 </script>
 
 <template>
-  <header class="header">
-    <div class="px-6 py-4 flex items-center justify-between">
-      <!-- Left side -->
-      <div class="flex items-center gap-4">
-        <button 
-          @click="$emit('toggle-sidebar')"
-          class="p-2 hover:bg-gray-100 rounded-lg"
-        >
-          <i class="pi pi-bars text-xl"></i>
-        </button>
-        <h1 class="text-xl font-semibold text-gray-800">PMIS</h1>
-      </div>
-      
-      <!-- Right side -->
-      <div class="flex items-center gap-4">
-        <!-- User info -->
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-            <i class="pi pi-user text-blue-600"></i>
-          </div>
-          <div class="text-left">
-            <p class="font-medium">Admin User</p>
-            <p class="text-sm text-gray-500">Administrator</p>
-          </div>
-        </div>
-        
-        <!-- Divider -->
-        <div class="h-8 w-px bg-gray-300"></div>
-        
-        <!-- Logout button -->
-        <button class="p-2 hover:bg-red-50 rounded-lg">
-          <i class="pi pi-sign-out text-red-600 text-xl"></i>
-        </button>
-      </div>
+  <header class="bg-white border-b px-6 py-4 flex justify-between items-center">
+    <!-- Left -->
+    <button
+      @click="$emit('toggle-sidebar')"
+      class="btn btn-secondary"
+    >
+      ☰
+    </button>
+
+    <!-- Right -->
+    <div class="flex items-center gap-4">
+      <!-- Username -->
+      <span class="text-sm text-gray-700 font-medium">
+        👋 {{ fullName || user?.username }}
+      </span>
+
+      <!-- Logout -->
+      <button
+        @click="logout"
+        :disabled="is_loading"
+        class="btn btn-danger"
+      >
+        Logout
+      </button>
     </div>
   </header>
 </template>
